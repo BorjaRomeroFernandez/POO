@@ -1,1 +1,4 @@
 *.o
+dsl-comprobaciones/
+Tests-auto/
+luhn.cpp
