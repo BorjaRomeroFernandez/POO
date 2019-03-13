@@ -4,3 +4,4 @@ Tests-auto/
 luhn.cpp
 P0/*_check*
 P0/test*
+.vscode/
