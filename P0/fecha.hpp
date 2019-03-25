@@ -17,10 +17,10 @@ class Fecha
     Fecha &operator--(int);
     Fecha &operator+(int);
     Fecha &operator-(int);
-    Fecha &operator+=(int);
     Fecha &operator-=(int);
+    Fecha &operator+=(int);
     Fecha &operator=(const Fecha &F);
-    Fecha &operator const char *();
+    operator const char *();
 
     int dia() const { return dia_; }
     int mes() const { return mes_; }
@@ -41,7 +41,7 @@ class Fecha
     void valida();
 };
 
-bool operator=(const Fecha &F1, const Fecha &F2);
+bool operator==(const Fecha &F1, const Fecha &F2);
 bool operator!=(const Fecha &F1, const Fecha &F2);
 bool operator>(const Fecha &F1, const Fecha &F2);
 bool operator<(const Fecha &F1, const Fecha &F2);
