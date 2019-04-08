@@ -4,23 +4,23 @@
 class Cadena
 {
 public:
-  explicit Cadena(unsigned t = 0, char c = ' ');
+  Cadena(unsigned t = 0, char c = ' ');
   Cadena(const Cadena &C);
   Cadena(const char *cadena);
 
-  Cadena &operator=(const Cadena &C) noexcept;
-  Cadena &operator=(const char *cadena) noexcept;
-  operator const char *() const noexcept;
-  Cadena &operator+=(const Cadena &C) noexcept;
-  Cadena operator+(const Cadena &C) const noexcept;
-  char &operator[](int n) noexcept;
-  const char &operator[](int n) const noexcept;
+  Cadena operator=(const Cadena &C);
+  Cadena operator=(const char *cadena);
+  operator const char *();
+  Cadena operator+=(const Cadena &C);
+  Cadena operator+(const Cadena &C);
+  char operator[](int n);
+  const char operator[](int n) const;
 
-  char &at(unsigned n);
-  const char &at(unsigned n) const;
-  Cadena substr(unsigned indice, unsigned tamano) const;
+  char at(int n);
+  const char at(int n) const;
+  Cadena substr(unsigned indice, unsigned tamano);
 
-  unsigned length() const noexcept { return tam_; }
+  const unsigned length() const { return tam_; }
 
   ~Cadena();
 
@@ -29,11 +29,11 @@ private:
   unsigned tam_;
 };
 
-bool operator==(const Cadena &C1, const Cadena &C2) noexcept;
-bool operator!=(const Cadena &C1, const Cadena &C2) noexcept;
-bool operator>(const Cadena &C1, const Cadena &C2) noexcept;
-bool operator<(const Cadena &C1, const Cadena &C2) noexcept;
-bool operator>=(const Cadena &C1, const Cadena &C2) noexcept;
-bool operator<=(const Cadena &C1, const Cadena &C2) noexcept;
+bool operator==(const Cadena &C1, const Cadena &C2);
+bool operator!=(const Cadena &C1, const Cadena &C2);
+bool operator>(const Cadena &C1, const Cadena &C2);
+bool operator<(const Cadena &C1, const Cadena &C2);
+bool operator>=(const Cadena &C1, const Cadena &C2);
+bool operator<=(const Cadena &C1, const Cadena &C2);
 
 #endif
