@@ -12,25 +12,25 @@ class Fecha
     Fecha(const char *fecha);
 
     Fecha &operator++();
-    Fecha &operator++(int);
+    Fecha operator++(int);
     Fecha &operator--();
-    Fecha &operator--(int);
-    Fecha &operator+(int);
-    Fecha &operator-(int);
+    Fecha operator--(int);
+    Fecha &operator+(int) const;
+    Fecha &operator-(int) const;
     Fecha &operator-=(int);
     Fecha &operator+=(int);
-    Fecha &operator=(const Fecha &F);
-    operator const char *();
+    Fecha &operator=(const Fecha &F) = default;
+    operator const char *() const;
 
-    int dia() const { return dia_; }
-    int mes() const { return mes_; }
-    int anno() const { return anno_; }
+    int dia() const noexcept { return dia_; }
+    int mes() const noexcept { return mes_; }
+    int anno() const noexcept { return anno_; }
 
     class Invalida
     {
       public:
         Invalida(const char *error) : error_(error) {}
-        const char *por_que() const { return error_; }
+        const char *por_que() const noexcept { return error_; }
 
       private:
         const char *error_;
@@ -38,14 +38,14 @@ class Fecha
 
   private:
     int dia_, mes_, anno_;
-    void valida();
+    void valida() const;
 };
 
-bool operator==(const Fecha &F1, const Fecha &F2);
-bool operator!=(const Fecha &F1, const Fecha &F2);
-bool operator>(const Fecha &F1, const Fecha &F2);
-bool operator<(const Fecha &F1, const Fecha &F2);
-bool operator>=(const Fecha &F1, const Fecha &F2);
-bool operator<=(const Fecha &F1, const Fecha &F2);
+bool operator==(const Fecha &F1, const Fecha &F2) noexcept;
+bool operator!=(const Fecha &F1, const Fecha &F2) noexcept;
+bool operator>(const Fecha &F1, const Fecha &F2) noexcept;
+bool operator<(const Fecha &F1, const Fecha &F2) noexcept;
+bool operator>=(const Fecha &F1, const Fecha &F2) noexcept;
+bool operator<=(const Fecha &F1, const Fecha &F2) noexcept;
 
 #endif
