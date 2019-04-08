@@ -29,4 +29,4 @@ check:
 
 clean:
 	make -f Make_check.mk clean
-rm -f *.o
+	rm -f *.o
