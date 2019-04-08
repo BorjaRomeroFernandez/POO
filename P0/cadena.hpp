@@ -29,11 +29,11 @@ private:
   unsigned tam_;
 };
 
-bool operator==(const Cadena &C1, const Cadena &C2);
-bool operator!=(const Cadena &C1, const Cadena &C2);
-bool operator>(const Cadena &C1, const Cadena &C2);
-bool operator<(const Cadena &C1, const Cadena &C2);
-bool operator>=(const Cadena &C1, const Cadena &C2);
-bool operator<=(const Cadena &C1, const Cadena &C2);
+bool operator==(const Cadena &C1, const Cadena &C2) noexcept;
+bool operator!=(const Cadena &C1, const Cadena &C2) noexcept;
+bool operator>(const Cadena &C1, const Cadena &C2) noexcept;
+bool operator<(const Cadena &C1, const Cadena &C2) noexcept;
+bool operator>=(const Cadena &C1, const Cadena &C2) noexcept;
+bool operator<=(const Cadena &C1, const Cadena &C2) noexcept;
 
 #endif
