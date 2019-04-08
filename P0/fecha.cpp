@@ -149,8 +149,8 @@ Fecha::operator const char *() const
 
     std::mktime(fecha);
 
-    char *DIASEM[] = {"domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"};
-    char *MES[] = {"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"};
+    const char *DIASEM[] = {"domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"};
+    const char *MES[] = {"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"};
 
     sprintf(cadena, "%s %d de %s de %d", DIASEM[fecha->tm_wday], fecha->tm_mday, MES[fecha->tm_mon], fecha->tm_year + 1900);
 

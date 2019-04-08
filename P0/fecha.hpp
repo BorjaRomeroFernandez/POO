@@ -19,18 +19,18 @@ class Fecha
     Fecha &operator-(int) const;
     Fecha &operator-=(int);
     Fecha &operator+=(int);
-    Fecha &operator=(const Fecha &F);
+    Fecha &operator=(const Fecha &F) = default;
     operator const char *() const;
 
-    int dia() const { return dia_; }
-    int mes() const { return mes_; }
-    int anno() const { return anno_; }
+    int dia() const noexcept { return dia_; }
+    int mes() const noexcept { return mes_; }
+    int anno() const noexcept { return anno_; }
 
     class Invalida
     {
       public:
         Invalida(const char *error) : error_(error) {}
-        const char *por_que() const { return error_; }
+        const char *por_que() const noexcept { return error_; }
 
       private:
         const char *error_;
