@@ -4,7 +4,7 @@
 class Cadena
 {
 public:
-  Cadena(unsigned t = 0, char c = ' ');
+  explicit Cadena(unsigned t = 0, char c = ' ');
   Cadena(const Cadena &C);
   Cadena(const char *cadena);
 
@@ -20,7 +20,7 @@ public:
   const char &at(unsigned n) const;
   Cadena substr(unsigned indice, unsigned tamano) const;
 
-  const unsigned length() const { return tam_; }
+  unsigned length() const noexcept { return tam_; }
 
   ~Cadena();
 
