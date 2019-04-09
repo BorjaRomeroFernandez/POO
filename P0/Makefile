@@ -31,3 +31,4 @@ check:
 clean:
 	make -f Make_check.mk clean
 	rm -f *.o
+	find . -type f \( -iname "test*" ! -iname "*.cpp" \) -delete
