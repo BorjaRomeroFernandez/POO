@@ -1,7 +1,7 @@
-*.o
+.vscode/
 dsl-comprobaciones/
 Tests-auto/
+*.o
 luhn.cpp
-P0/*_check*
-P0/test*
-.vscode/
+*_check*
+test*
