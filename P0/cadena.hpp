@@ -17,7 +17,7 @@ public:
   const char &operator[](int n) const noexcept;
 
   char &at(unsigned n);
-  const char &at(unsigned n) const;
+  const char at(unsigned n) const;
   Cadena substr(unsigned indice, unsigned tamano) const;
 
   unsigned length() const noexcept { return tam_; }

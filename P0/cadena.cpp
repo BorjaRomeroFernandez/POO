@@ -115,30 +115,31 @@ char &Cadena::at(unsigned n)
         return this->s_[n];
 }
 
-const char &Cadena::at(unsigned n) const
+const char Cadena::at(unsigned n) const
 {
-    if (n < 0 || n > this->tam_ - 1)
+    if (n < 0 || n >= this->tam_)
         throw std::out_of_range("El índice es inválido");
-    else
-        return this->s_[n];
+
+    return this->s_[n];
 }
 
 Cadena Cadena::substr(unsigned indice, unsigned tamano) const
 {
-    if (indice > this->tam_ - 1 || (indice + tamano) > this->tam_ - 1)
-        throw std::out_of_range("El índice es inválido");
+    if (indice > this->tam_ - 1 || (indice + tamano) > this->tam_ - 1 || tamano > this->tam_ - 1)
+        throw std::out_of_range("El índice es invá lido");
 
-    char *aux = new char[tamano + 1];
-    unsigned i = indice;
+    char *aux = new char[tamano];
 
-    while (i < indice + tamano)
+    unsigned i = 0;
+
+    while (i < tamano)
     {
-        aux[i] = this->s_[i];
+        aux[i] = this->s_[indice + i];
+
+        ++i;
     }
 
-    aux[indice + tamano] = '\0';
-
-    return aux;
+    return Cadena(aux);
 }
 
 Cadena::~Cadena()
