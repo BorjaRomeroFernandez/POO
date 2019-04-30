@@ -4,7 +4,6 @@ CXXFLAGS = -std=c++11 -g -Wall -Wextra -pedantic
 CPPFLAGS = -DP0 -I../Tests-auto -I.
 VPATH = ../Tests-auto:.
 
-
 all: test-P0-auto test-P0-consola
 
 test-consola: test-P0-consola
