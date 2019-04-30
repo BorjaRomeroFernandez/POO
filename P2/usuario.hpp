@@ -9,30 +9,30 @@
 class Clave
 {
 public:
-  Cadena(char *c);
+  enum Razon
+  {
+    CORTA,
+    ERROR_CRYPT
+  };
+
+  Clave(const char *c);
 
   class Incorrecta
   {
   public:
-    enum Razon
-    {
-      CORTA,
-      ERROR_CRYPT
-    };
-
     Incorrecta(Razon r) : razon_(r) {}
-    Razon razon() const { return razon_; }
+    Razon razon() const noexcept { return razon_; }
 
   private:
     Razon razon_;
   };
 
-  Cadena clave() const { return pass; }
+  Cadena clave() const noexcept { return password_; }
 
-  bool verifica(char *c);
+  bool verifica(const char *c);
 
 private:
-  Cadena pass;
+  Cadena password_;
 };
 
 /////////////////////////////////////////////////////////////////////////////
