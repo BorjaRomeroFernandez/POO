@@ -25,7 +25,7 @@ Fecha::Fecha(const char *fecha)
     std::time_t tiempo_actual = std::time(nullptr);
     std::tm *fecha_actual = std::localtime(&tiempo_actual);
 
-    if (sscanf(fecha, "%02d/%02d/%4d", &dia_, &mes_, &anno_) != 3)
+    if (sscanf(fecha, "%d/%d/%d", &dia_, &mes_, &anno_) != 3)
         throw Fecha::Invalida("Formato incorrecto");
 
     if (dia_ == 0)
@@ -141,7 +141,7 @@ Fecha &Fecha::operator+=(int n)
     return *this;
 }
 
-Fecha::operator const char *() const
+const char *Fecha::cadena() const
 {
     char *cadena = new char[40];
 
@@ -214,4 +214,31 @@ bool operator>=(const Fecha &F1, const Fecha &F2) noexcept
 bool operator<=(const Fecha &F1, const Fecha &F2) noexcept
 {
     return !(F2 < F1);
+}
+
+std::ostream &operator<<(std::ostream &os, const Fecha &F)
+{
+    os << F.cadena();
+
+    return os;
+}
+
+std::istream &operator>>(std::istream &is, Fecha &F)
+{
+
+    char *fecha = new char[11];
+    is.getline(fecha, 11);
+
+    try
+    {
+        F = Fecha(fecha);
+        delete[] fecha;
+    }
+    catch (Fecha::Invalida &e)
+    {
+        is.setstate(std::ios_base::failbit);
+        throw;
+    }
+
+    return is;
 }
