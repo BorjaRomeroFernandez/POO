@@ -6,7 +6,6 @@
 class Cadena
 {
 public:
-
   explicit Cadena(unsigned t = 0, char c = ' ');
   Cadena(const Cadena &C);
   Cadena(const char *cadena);
