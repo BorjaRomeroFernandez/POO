@@ -6,6 +6,7 @@
 class Fecha
 {
 public:
+
   static const int AnnoMinimo = 1902;
   static const int AnnoMaximo = 2037;
 
