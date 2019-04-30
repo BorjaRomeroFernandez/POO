@@ -54,17 +54,17 @@ void Usuario::compra(Articulo &A, unsigned c)
 {
     if (c == 0)
     {
-        articulos_.erase(A);
+        articulos_.erase(&A);
     }
     else
     {
-        if (articulos_.find(A) == articulos_.end())
+        if (articulos_.find(&A) == articulos_.end())
         {
             articulos_.insert(std::pair<Articulo *, unsigned>(&A, c));
         }
         else
         {
-            articulos_.find(A)->second = c;
+            articulos_.find(&A)->second = c;
         }
     }
 }
@@ -72,9 +72,9 @@ void Usuario::compra(Articulo &A, unsigned c)
 unsigned Usuario::n_articulos() const
 {
     unsigned cont;
-    std::map<Articulo *, unsigned>::iterator it = articulos_.begin();
+    std::unordered_map<Articulo *, unsigned int>::iterator it;
 
-    for (it; it != articulos_.end(); ++it)
+    for (it = this->compra().begin(); it != articulos_.end(); ++it)
     {
         cont++;
     }
