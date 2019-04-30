@@ -2,9 +2,12 @@
 #define USUARIO_HPP_
 
 #include <map>
+#include <unordered_set>
+#include <unordered_map>
 #include <iostream>
 #include "cadena.hpp"
 #include "tarjeta.hpp"
+#include "articulo.hpp"
 
 class Clave
 {
@@ -42,6 +45,7 @@ class Usuario
 public:
   typedef std::map<Numero, Tarjeta *> Tarjetas;
   typedef std::unordered_map<Articulo *, unsigned int> Articulos;
+  typedef std::unordered_set<Cadena> Usuarios;
 
   Usuario(Cadena i, Cadena n, Cadena a, Cadena d, Clave c);
   Usuario(Usuario &u) = delete;
@@ -52,23 +56,25 @@ public:
   {
   public:
     Id_duplicado(Cadena id) : id_(id) {}
-    Cadena idd() const { return id_; }
+    Cadena idd() const noexcept { return id_; }
 
   private:
     Cadena id_;
   };
 
-  void es_titular_de(const Tarjeta &t);
+  void es_titular_de(Tarjeta &t);
   void no_es_titular_de(const Tarjeta &t);
-  void compra(const Articulo &A, unsigned c = 1);
+  void compra(Articulo &A, unsigned c = 1);
 
-  Cadena &id() const { return identificador_; }
-  Cadena &nombre() const { return nombre_; }
-  Cadena &apellidos() const { return apellidos_; }
-  Cadena &direccion() const { return direccion_; }
-  Tarjetas &tarjetas() const { return tarjetas_; }
-  Articulos &compra() const;
+  Cadena id() const noexcept { return identificador_; }
+  Cadena nombre() const noexcept { return nombre_; }
+  Cadena apellidos() const noexcept { return apellidos_; }
+  Cadena direccion() const noexcept { return direccion_; }
+  Tarjetas tarjetas() const noexcept { return tarjetas_; }
+  Articulos compra() const noexcept { return articulos_; }
   unsigned n_articulos() const;
+
+  friend std::ostream &operator<<(std::ostream &os, const Usuario &U);
 
   ~Usuario();
 
@@ -80,10 +86,10 @@ private:
   Clave contrasena_;
   Tarjetas tarjetas_;
   Articulos articulos_;
+
+  static Usuarios identificadores_;
 };
 
-void mostrar_carro(const Usuario::Articulos &a, const Usuario &U);
-
-std::ostream &operator<<(std::ostream &os, const Usuario &U);
+void mostrar_carro(const Usuario::Articulos &A, const Usuario &U);
 
 #endif
