@@ -5,8 +5,7 @@ Articulo::Articulo(Cadena r, Cadena t, Fecha &f, double p, unsigned e) : referen
                                                                          publicacion_(f),
                                                                          precio_(p),
                                                                          ejemplares_(e)
-{
-}
+{}
 
 std::ostream &operator<<(std::ostream &os, const Articulo &A)
 {

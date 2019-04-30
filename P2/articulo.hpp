@@ -10,13 +10,13 @@ class Articulo
 public:
   Articulo(Cadena r, Cadena t, Fecha &f, double p, unsigned e);
 
-  Cadena referencia() const { return referencia_; };
-  Cadena titulo() const { return titulo_; };
-  Fecha f_publi() const { return publicacion_; };
-  double precio() const { return precio_; };
-  double &precio() { return precio_; }
-  unsigned stock() const { return ejemplares_; };
-  unsigned &stock() { return ejemplares_; }
+  Cadena referencia() const noexcept { return referencia_; };
+  Cadena titulo() const noexcept { return titulo_; };
+  Fecha f_publi() const noexcept { return publicacion_; };
+  double precio() const noexcept { return precio_; };
+  double &precio() noexcept { return precio_; }
+  unsigned stock() const noexcept { return ejemplares_; };
+  unsigned &stock() noexcept { return ejemplares_; }
 
 private:
   Cadena referencia_;
