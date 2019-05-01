@@ -1,6 +1,7 @@
 #ifndef CADENA_HPP_
 #define CADENA_HPP_
 
+#include <functional>
 #include <iterator>
 
 class Cadena
@@ -61,5 +62,17 @@ bool operator<=(const Cadena &C1, const Cadena &C2) noexcept;
 
 std::ostream &operator<<(std::ostream &os, const Cadena &C);
 std::istream &operator>>(std::istream &is, Cadena &C);
+
+namespace std
+{
+template <>
+struct hash<Cadena>
+{
+  size_t operator()(const Cadena &cad) const
+  {
+    return hash<string>{}(cad.c_str());
+  }
+};
+} // namespace std
 
 #endif
