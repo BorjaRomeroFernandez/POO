@@ -1,8 +1,8 @@
+#include "usuario.hpp"
 #include <cstring>
 #include <unistd.h>
 #include <cstdlib>
 #include <utility>
-#include "usuario.hpp"
 
 #define caracteres "zyxwvutsrqponmlkjihgfedcba.ZYXWVUTSRQPONMLKJIHGFEDCBA/9876543210"
 
@@ -23,30 +23,32 @@ Clave::Clave(const char *c)
     password_ = crypt(c, salt);
 }
 
-bool Clave::verifica(const char *c)
+bool Clave::verifica(const char *c) const
 {
     return (password_ == crypt(c, password_.c_str()));
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
+Usuario::Usuarios Usuario::usuarios_;
 
-Usuario::Usuario(Cadena i, Cadena n, Cadena a, Cadena d, Clave c) : identificador_(i),
-                                                                    nombre_(n),
-                                                                    apellidos_(a),
-                                                                    direccion_(d),
-                                                                    contrasena_(c)
+Usuario::Usuario(const Cadena &i, const Cadena &n, const Cadena &a, const Cadena &d, const Clave &c) : identificador_(i),
+                                                                                                       nombre_(n),
+                                                                                                       apellidos_(a),
+                                                                                                       direccion_(d),
+                                                                                                       contrasena_(c)
 {
-    if (!identificadores_.insert(i).second)
-        throw Usuario::Id_duplicado(i);
+    if (!usuarios_.insert(i).second)
+        throw Id_duplicado(identificador_);
 }
 
 void Usuario::es_titular_de(Tarjeta &T)
 {
-    tarjetas_.insert(std::pair<Numero, Tarjeta *>(T.numero(), &T));
+    if (this == T.titular())
+        tarjetas_.insert(std::pair<Numero, Tarjeta *>(T.numero(), &T));
 }
 
-void Usuario::no_es_titular_de(const Tarjeta &T)
+void Usuario::no_es_titular_de(Tarjeta &T)
 {
+    T.anula_titular();
     tarjetas_.erase(T.numero());
 }
 
@@ -71,7 +73,7 @@ void Usuario::compra(Articulo &A, unsigned c)
 
 unsigned Usuario::n_articulos() const
 {
-    unsigned cont;
+    unsigned cont = 0;
     std::unordered_map<Articulo *, unsigned int>::iterator it;
 
     for (it = this->compra().begin(); it != articulos_.end(); ++it)
@@ -84,12 +86,10 @@ unsigned Usuario::n_articulos() const
 
 Usuario::~Usuario()
 {
-    std::map<Numero, Tarjeta *>::iterator it;
+    for (auto &[numero, tarjeta] : tarjetas_)
+        tarjeta->anula_titular();
 
-    for (it = tarjetas_.begin(); it != tarjetas_.end(); ++it)
-    {
-        it->second->anula_titular();
-    }
+    usuarios_.erase(identificador_);
 }
 
 std::ostream &operator<<(std::ostream &os, const Usuario &U)
@@ -99,9 +99,9 @@ std::ostream &operator<<(std::ostream &os, const Usuario &U)
         << U.direccion() << std::endl
         << "Tarjetas:" << std::endl;
 
-    std::map<Numero, Tarjeta *>::iterator it = U.tarjetas().begin();
+    std::map<Numero, Tarjeta *>::iterator it;
 
-    for (it; it != U.tarjetas().end(); ++it)
+    for (it = U.tarjetas().begin(); it != U.tarjetas().end(); ++it)
     {
         os << it->second;
     }
@@ -109,9 +109,9 @@ std::ostream &operator<<(std::ostream &os, const Usuario &U)
     return os;
 }
 
-void mostrar_carro(const Usuario::Articulos &A, const Usuario &U)
+void mostrar_carro(std::ostream &os, const Usuario &U)
 {
-    std::cout
+    os
         << "Carrito de compra de " << U.id() << " [Artículos: " << U.n_articulos() << "]" << std::endl
         << " Cant. Artículo" << std::endl
         << Cadena(59, '=') << std::endl;
@@ -120,6 +120,6 @@ void mostrar_carro(const Usuario::Articulos &A, const Usuario &U)
 
     for (it = U.compra().begin(); it != U.compra().end(); ++it)
     {
-        std::cout << "   " << it->second << "   " << it->first << std::endl;
+        os << "   " << it->second << "   " << it->first << std::endl;
     }
 }

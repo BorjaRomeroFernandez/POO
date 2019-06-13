@@ -1,25 +1,41 @@
+#include "tarjeta.hpp"
 #include <cstring>
 #include <algorithm>
 #include <iomanip>
-#include "tarjeta.hpp"
-#include "../luhn.cpp"
 
-Numero::Numero(Cadena c)
+struct Digito : public std::unary_function<const unsigned char, bool>
 {
-    Cadena num = c;
+    bool operator()(const unsigned char &x) const { return std::isdigit(x); }
+};
 
-    std::remove_if(num.begin(), num.end() + 1, [](char c) { return isspace(c); });
+bool luhn(const Cadena &cad);
 
-    if (std::count_if(num.begin(), num.end(), static_cast<int (*)(int)>(std::isdigit)) != num.length())
-        throw Numero::Incorrecto(Numero::DIGITOS);
+static Cadena str_toupper(Cadena s)
+{
+    std::transform(s.begin(), s.end(), s.begin(),
+                   [](unsigned char c) { return std::toupper(c); });
+    return s;
+}
 
-    if (num.length() < 13 || num.length() > 19)
-        throw Numero::Incorrecto(Numero::LONGITUD);
+Numero::Numero(const Cadena &n)
+{
+    Cadena aux = n;
 
-    if (!luhn(c))
-        throw Numero::Incorrecto(Numero::NO_VALIDO);
+    if (aux.length() == 0)
+        throw Incorrecto(Razon::LONGITUD);
 
-    numero_ = num;
+    aux = aux.substr(0, std::remove_if(aux.begin(), aux.end(), [](unsigned char x) { return std::isspace(x); }) - aux.begin());
+
+    if (std::find_if(aux.begin(), aux.end(), std::not1(Digito())) != aux.end())
+        throw Incorrecto(Razon::DIGITOS);
+
+    if (aux.length() < 13 || aux.length() > 19)
+        throw Incorrecto(Razon::LONGITUD);
+
+    if (!luhn(aux))
+        throw Incorrecto(Razon::NO_VALIDO);
+
+    numero_ = aux;
 }
 
 bool operator<(const Numero &N1, const Numero &N2)
@@ -27,18 +43,17 @@ bool operator<(const Numero &N1, const Numero &N2)
     return N1.numero_ < N2.numero_;
 }
 
-/////////////////////////////////////////////////////////////////
+Tarjeta::Numeros Tarjeta::numeros_;
 
-Tarjeta::Tarjeta(Numero n, Usuario &u, Fecha c) : usuario_(&u),
-                                                  numero_(n),
+Tarjeta::Tarjeta(Numero n, Usuario &u, Fecha c) : numero_(n),
+                                                  titular_(&u),
                                                   caducidad_(c),
                                                   activa_(true)
 {
-    if (c < Fecha())
+    if (Fecha() > c)
         throw Tarjeta::Caducada(c);
 
-    if (!numeros_.insert(n).second)
-        throw Tarjeta::Num_duplicado(n);
+    numeros_.insert(n).second;
 
     char f = numero_[0];
 
@@ -69,7 +84,7 @@ Tarjeta::Tarjeta(Numero n, Usuario &u, Fecha c) : usuario_(&u),
         break;
     }
 
-    u.es_titular_de(this);
+    u.es_titular_de(*this);
 }
 
 bool Tarjeta::activa(bool a) noexcept
@@ -81,16 +96,14 @@ bool Tarjeta::activa(bool a) noexcept
 
 void Tarjeta::anula_titular()
 {
+    titular_ = nullptr;
     activa_ = false;
-    usuario_ = nullptr;
 }
 
 Tarjeta::~Tarjeta()
 {
-    Usuario *u = const_cast<Usuario *>(usuario_);
-
-    if (u != nullptr)
-        u->no_es_titular_de(this);
+    if (Usuario *u = const_cast<Usuario *>(titular_))
+        u->no_es_titular_de(*this);
 }
 
 std::ostream &operator<<(std::ostream &os, const Tarjeta &T)
@@ -98,7 +111,8 @@ std::ostream &operator<<(std::ostream &os, const Tarjeta &T)
     os
         << T.tipo() << std::endl
         << T.numero() << std::endl
-        << std::uppercase << T.titular().nombre() << " " << T.titular().apellidos() << std::nouppercase << std::endl
+        << str_toupper(T.titular()->nombre()) << " " << str_toupper(T.titular()->apellidos()) << std::endl
+        << std::uppercase << T.titular()->nombre() << " " << T.titular()->apellidos() << std::nouppercase << std::endl
         << "Caduca: " << std::setfill('0') << std::setw(2)
         << T.caducidad().mes() << '/' << std::setw(2)
         << (T.caducidad().anno() % 100);

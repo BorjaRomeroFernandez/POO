@@ -1,13 +1,13 @@
 #ifndef USUARIO_HPP_
 #define USUARIO_HPP_
 
+#include "cadena.hpp"
+#include "tarjeta.hpp"
+#include "articulo.hpp"
 #include <map>
 #include <unordered_set>
 #include <unordered_map>
 #include <iostream>
-#include "cadena.hpp"
-#include "tarjeta.hpp"
-#include "articulo.hpp"
 
 class Clave
 {
@@ -32,13 +32,14 @@ public:
 
   Cadena clave() const noexcept { return password_; }
 
-  bool verifica(const char *c);
+  bool verifica(const char *c) const;
 
 private:
   Cadena password_;
 };
 
-/////////////////////////////////////////////////////////////////////////////
+class Numero;
+class Tarjeta;
 
 class Usuario
 {
@@ -47,10 +48,10 @@ public:
   typedef std::unordered_map<Articulo *, unsigned int> Articulos;
   typedef std::unordered_set<Cadena> Usuarios;
 
-  Usuario(Cadena i, Cadena n, Cadena a, Cadena d, Clave c);
-  Usuario(Usuario &u) = delete;
+  Usuario(const Cadena &i, const Cadena &n, const Cadena &a, const Cadena &d, const Clave &c);
+  Usuario(const Usuario &U) = delete;
 
-  Usuario &operator=(Usuario &u) = delete;
+  Usuario &operator=(const Usuario &U) = delete;
 
   class Id_duplicado
   {
@@ -63,7 +64,7 @@ public:
   };
 
   void es_titular_de(Tarjeta &t);
-  void no_es_titular_de(const Tarjeta &t);
+  void no_es_titular_de(Tarjeta &t);
   void compra(Articulo &A, unsigned c = 1);
 
   Cadena id() const noexcept { return identificador_; }
@@ -86,10 +87,9 @@ private:
   Clave contrasena_;
   Tarjetas tarjetas_;
   Articulos articulos_;
-
-  static Usuarios identificadores_;
+  static Usuarios usuarios_;
 };
 
-void mostrar_carro(const Usuario::Articulos &A, const Usuario &U);
+void mostrar_carro(std::ostream &os, const Usuario &U);
 
 #endif

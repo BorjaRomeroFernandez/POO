@@ -19,6 +19,7 @@ public:
   Fecha operator--(int);
   Fecha &operator+(int) const;
   Fecha &operator-(int) const;
+  
   Fecha &operator-=(int);
   Fecha &operator+=(int);
   Fecha &operator=(const Fecha &F) = default;

@@ -1,14 +1,14 @@
 #ifndef ARTICULO_HPP_
 #define ARTICULO_HPP_
 
-#include <iostream>
 #include "cadena.hpp"
 #include "fecha.hpp"
+#include <iostream>
 
 class Articulo
 {
 public:
-  Articulo(Cadena r, Cadena t, Fecha &f, double p, unsigned e);
+  Articulo(Cadena r, Cadena t, const Fecha &f, double p, unsigned e);
 
   Cadena referencia() const noexcept { return referencia_; };
   Cadena titulo() const noexcept { return titulo_; };

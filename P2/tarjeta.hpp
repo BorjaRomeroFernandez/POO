@@ -1,11 +1,11 @@
 #ifndef TARJETA_HPP_
 #define TARJETA_HPP_
 
-#include <iostream>
-#include <set>
 #include "cadena.hpp"
 #include "fecha.hpp"
 #include "usuario.hpp"
+#include <iostream>
+#include <set>
 
 class Numero
 {
@@ -17,19 +17,19 @@ public:
     NO_VALIDO
   };
 
-  Numero(Cadena n);
+  Numero(const Cadena &n);
 
   operator const char *() const noexcept { return numero_.c_str(); }
 
   class Incorrecto
   {
   public:
-    Incorrecto(Numero::Razon r) : razon_(r) {}
+    Incorrecto(Razon r) : razon_(r) {}
 
-    Numero::Razon razon() const noexcept { return razon_; }
+    const Razon &razon() const noexcept { return razon_; }
 
   private:
-    Numero::Razon razon_;
+    Razon razon_;
   };
 
   friend bool operator<(const Numero &N1, const Numero &N2);
@@ -38,7 +38,7 @@ private:
   Cadena numero_;
 };
 
-////////////////////////////////////////////////////////////////
+class Usuario;
 
 class Tarjeta
 {
@@ -91,7 +91,7 @@ public:
 
   Tipo tipo() const noexcept { return tipo_; }
   Numero numero() const noexcept { return numero_; }
-  const Usuario &titular() const noexcept { return usuario_; }
+  const Usuario *titular() const noexcept { return titular_; }
   Fecha caducidad() const noexcept { return caducidad_; }
   bool activa() const noexcept { return activa_; }
 
@@ -100,10 +100,9 @@ public:
 private:
   Tipo tipo_;
   Numero numero_;
-  const Usuario *usuario_;
+  const Usuario *titular_;
   Fecha caducidad_;
   bool activa_;
-
   static Numeros numeros_;
 };
 

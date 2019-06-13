@@ -1,7 +1,7 @@
+#include "cadena.hpp"
 #include <cstdio>
 #include <cstring>
 #include <iostream>
-#include "cadena.hpp"
 
 Cadena::Cadena(unsigned tamano, char caracter) : s_(new char[tamano + 1]),
                                                  tam_(tamano)
@@ -143,8 +143,8 @@ char Cadena::at(unsigned n) const
 
 Cadena Cadena::substr(unsigned indice, unsigned tamano) const
 {
-    if (indice > this->tam_ - 1 || (indice + tamano) > this->tam_ - 1 || tamano > this->tam_ - 1)
-        throw std::out_of_range("El índice es invá lido");
+    if (indice > this->tam_ || (indice + tamano) > this->tam_ || (indice + tamano) < indice)
+        throw std::out_of_range("El índice es inválido");
 
     char *aux = new char[tamano];
 
@@ -168,7 +168,7 @@ Cadena::~Cadena()
 
 bool operator==(const Cadena &C1, const Cadena &C2) noexcept
 {
-    return (strcmp(C1.c_str(), C2.c_str()) == 0);
+    return (std::strcmp(C1.c_str(), C2.c_str()) == 0);
 }
 
 bool operator!=(const Cadena &C1, const Cadena &C2) noexcept
@@ -183,7 +183,7 @@ bool operator>(const Cadena &C1, const Cadena &C2) noexcept
 
 bool operator<(const Cadena &C1, const Cadena &C2) noexcept
 {
-    return (strcmp(C1.c_str(), C2.c_str()) < 0);
+    return (std::strcmp(C1.c_str(), C2.c_str()) < 0);
 }
 
 bool operator>=(const Cadena &C1, const Cadena &C2) noexcept
