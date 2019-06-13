@@ -4,7 +4,7 @@
 #
 ## Variables, macros, más macros y más variables, que es lo mismo. ##
 # --- Parte configurable ---
- 
+
 # NOMBREALUMNO es el nombre del directorio donde el alumno guarda las
 # prácticas de POO (C++). Dentro de ese directorio debe haber uno para
 # cada práctica llamado NOMBREPRACTICA, que será de la forma P<n>,

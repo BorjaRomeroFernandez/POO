@@ -1,6 +1,6 @@
 #ifndef ARTICULO_HPP_
 #define ARTICULO_HPP_
- 
+
 #include "cadena.hpp"
 #include "fecha.hpp"
 #include <iostream>

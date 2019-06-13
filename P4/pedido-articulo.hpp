@@ -1,9 +1,9 @@
 #ifndef PEDIDO_ARTICULO_HPP_
 #define PEDIDO_ARTICULO_HPP_
- 
-#include <ostream>
+
 #include "articulo.hpp"
 #include "pedido.hpp"
+#include <ostream>
 
 class LineaPedido
 {

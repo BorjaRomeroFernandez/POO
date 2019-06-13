@@ -1,12 +1,14 @@
+
+#include "usuario.hpp"
+
 extern "C"
 {
 #include <unistd.h>
 }
- 
+
 #include <cstring>
 #include <iomanip>
 #include <random>
-#include "usuario.hpp"
 
 #define caracteres "zyxwvutsrqponmlkjihgfedcba.ZYXWVUTSRQPONMLKJIHGFEDCBA/9876543210"
 

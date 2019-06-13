@@ -1,9 +1,9 @@
 #ifndef PEDIDO_HPP_
 #define PEDIDO_HPP_
- 
-#include <ostream>
+
 #include "fecha.hpp"
 #include "tarjeta.hpp"
+#include <ostream>
 
 class Pedido_Articulo;
 class Usuario_Pedido;

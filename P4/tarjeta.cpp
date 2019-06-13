@@ -1,10 +1,10 @@
+#include "tarjeta.hpp"
+#include "usuario.hpp"
 #include <algorithm>
 #include <cctype>
 #include <cstring>
 #include <iomanip>
-#include "tarjeta.hpp"
-#include "usuario.hpp"
- 
+
 struct Digito : public std::unary_function<const unsigned char, bool>
 {
     bool operator()(const unsigned char &x) const { return std::isdigit(x); }
@@ -24,9 +24,9 @@ static Cadena str_toupper(Cadena s)
     return s;
 }
 
-Numero::Numero(const Cadena &n)
+Numero::Numero(const Cadena &C)
 {
-    Cadena aux(n);
+    Cadena aux(C);
 
     Cadena::iterator end = std::remove_if(aux.begin(), aux.end(), Blanco());
 
@@ -120,9 +120,10 @@ void Tarjeta::anula_titular()
     estado_ = false;
 }
 
-bool Tarjeta::activa(bool est)
+bool Tarjeta::activa(bool e)
 {
-    estado_ = est;
+    estado_ = e;
+
     return estado_;
 }
 

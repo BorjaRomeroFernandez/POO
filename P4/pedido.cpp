@@ -1,25 +1,26 @@
-#include <iomanip>
 #include "pedido.hpp"
 #include "pedido-articulo.hpp"
 #include "usuario-pedido.hpp"
- 
-Pedido::Pedido(Usuario_Pedido &u_p, Pedido_Articulo &p_a, Usuario &u,
-               const Tarjeta &t, const Fecha &fecha)
-    : numero_(cantidad_ + 1), tarjeta_(&t), fecha_(fecha), total_(0)
-{
-  if (u.n_articulos() == 0)
-    throw Pedido::Vacio(&u);
+#include <iomanip>
 
-  if (!t.activa())
+Pedido::Pedido(Usuario_Pedido &UP, Pedido_Articulo &PA, Usuario &U, const Tarjeta &T, const Fecha &F) : numero_(cantidad_ + 1),
+                                                                                                        tarjeta_(&T),
+                                                                                                        fecha_(F),
+                                                                                                        total_(0)
+{
+  if (U.n_articulos() == 0)
+    throw Pedido::Vacio(&U);
+
+  if (!T.activa())
     throw Tarjeta::Desactivada();
 
-  if (t.titular() != &u)
-    throw Pedido::Impostor(&u);
+  if (T.titular() != &U)
+    throw Pedido::Impostor(&U);
 
-  if (t.caducidad() < fecha)
-    throw Tarjeta::Caducada(t.caducidad());
+  if (T.caducidad() < F)
+    throw Tarjeta::Caducada(T.caducidad());
 
-  Usuario::Articulos carro = u.compra();
+  Usuario::Articulos carro = U.compra();
 
   bool pedido_vacio = true;
 
@@ -28,12 +29,12 @@ Pedido::Pedido(Usuario_Pedido &u_p, Pedido_Articulo &p_a, Usuario &u,
     if (auto *libroDig = dynamic_cast<LibroDigital *>(articulo))
     {
       if (libroDig->f_expir() < Fecha())
-        u.compra(*articulo, 0);
+        U.compra(*articulo, 0);
       else
       {
-        p_a.pedir(*this, *libroDig, articulo->precio(), cantidad);
+        PA.pedir(*this, *libroDig, articulo->precio(), cantidad);
         total_ += articulo->precio() * cantidad;
-        u.compra(*articulo, 0);
+        U.compra(*articulo, 0);
         pedido_vacio = false;
       }
     }
@@ -41,21 +42,23 @@ Pedido::Pedido(Usuario_Pedido &u_p, Pedido_Articulo &p_a, Usuario &u,
     {
       if (artAlmc->stock() < cantidad)
       {
-        const_cast<Usuario::Articulos &>(u.compra()).clear();
+        const_cast<Usuario::Articulos &>(U.compra()).clear();
         throw Pedido::SinStock(articulo);
       }
       artAlmc->stock() -= cantidad;
-      p_a.pedir(*this, *artAlmc, articulo->precio(), cantidad);
+      PA.pedir(*this, *artAlmc, articulo->precio(), cantidad);
       total_ += articulo->precio() * cantidad;
-      u.compra(*articulo, 0);
+      U.compra(*articulo, 0);
       pedido_vacio = false;
     }
     else
       throw std::logic_error("Error, Articulo Desconocido");
   }
+
   if (pedido_vacio)
-    throw Vacio(&u);
-  u_p.asocia(u, *this);
+    throw Vacio(&U);
+
+  UP.asocia(U, *this);
   ++cantidad_;
 }
 

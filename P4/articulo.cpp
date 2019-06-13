@@ -1,6 +1,6 @@
 #include "articulo.hpp"
 #include <iomanip>
- 
+
 Autor::Autor(const Cadena &n, const Cadena &a, const Cadena &d) : nombre_(n),
                                                                   apellidos_(a),
                                                                   direccion_(d)

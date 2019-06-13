@@ -1,6 +1,6 @@
 #ifndef CADENA_HPP_
 #define CADENA_HPP_
- 
+
 #include <functional>
 #include <iostream>
 

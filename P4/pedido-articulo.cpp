@@ -1,6 +1,6 @@
-#include <iomanip>
 #include "pedido-articulo.hpp"
- 
+#include <iomanip>
+
 LineaPedido::LineaPedido(double p, unsigned c) : precio_(p),
                                                  cantidad_(c)
 {
