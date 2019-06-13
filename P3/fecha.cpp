@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <cstring>
 #include "fecha.hpp"
-
+ 
 Fecha::Fecha(int d, int m, int a) : dia_(d), mes_(m), anno_(a)
 {
     std::time_t tiempo_actual = std::time(nullptr);

@@ -6,7 +6,7 @@ extern "C"
 #include <iomanip>
 #include <random>
 #include "usuario.hpp"
-
+ 
 #define caracteres "zyxwvutsrqponmlkjihgfedcba.ZYXWVUTSRQPONMLKJIHGFEDCBA/9876543210"
 
 Clave::Clave(const char *c)

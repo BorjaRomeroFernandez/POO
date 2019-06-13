@@ -7,7 +7,7 @@
 #include "cadena.hpp"
 #include "tarjeta.hpp"
 #include "articulo.hpp"
-
+ 
 class Tarjeta;
 class Numero;
 

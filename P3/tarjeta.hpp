@@ -1,6 +1,6 @@
 #ifndef TARJETA_HPP_
 #define TARJETA_HPP_
-
+ 
 #include <ostream>
 #include "cadena.hpp"
 #include "fecha.hpp"

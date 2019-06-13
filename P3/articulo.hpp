@@ -4,7 +4,7 @@
 #include <iostream>
 #include "cadena.hpp"
 #include "fecha.hpp"
-
+ 
 class Articulo
 {
 public:

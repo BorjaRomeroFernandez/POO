@@ -6,7 +6,7 @@
 #include "tarjeta.hpp"
 #include "usuario-pedido.hpp"
 #include "pedido-articulo.hpp"
-
+ 
 class Pedido_Articulo;
 class Usuario_Pedido;
 

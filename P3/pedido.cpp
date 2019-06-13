@@ -1,6 +1,6 @@
 #include <iomanip>
 #include "pedido.hpp"
-
+ 
 Pedido::Pedido(Usuario_Pedido &UP, Pedido_Articulo &PA, Usuario &U, const Tarjeta &T, const Fecha &F) : num_(cant_ + 1),
                                                                                                         tarjeta_(&T),
                                                                                                         fecha_(F),
@@ -20,7 +20,7 @@ Pedido::Pedido(Usuario_Pedido &UP, Pedido_Articulo &PA, Usuario &U, const Tarjet
 
     bool pedido_vacio = true;
 
-    Usuario::Articulos carro = user.compra();
+    Usuario::Articulos carro = U.compra();
 
     for (auto &[articulo, cantidad] : carro)
     {
