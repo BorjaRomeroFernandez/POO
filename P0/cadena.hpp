@@ -13,6 +13,7 @@ public:
   operator const char *() const noexcept;
   Cadena &operator+=(const Cadena &C) noexcept;
   Cadena operator+(const Cadena &C) const noexcept;
+  
   char &operator[](int n) noexcept;
   const char &operator[](int n) const noexcept;
 

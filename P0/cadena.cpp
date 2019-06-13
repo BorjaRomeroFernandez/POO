@@ -1,7 +1,7 @@
+#include "cadena.hpp"
 #include <cstdio>
 #include <cstring>
 #include <iostream>
-#include "cadena.hpp"
 
 Cadena::Cadena(unsigned tamano, char caracter) : s_(new char[tamano + 1]),
                                                  tam_(tamano)

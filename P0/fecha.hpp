@@ -17,9 +17,11 @@ class Fecha
     Fecha operator--(int);
     Fecha &operator+(int) const;
     Fecha &operator-(int) const;
+
     Fecha &operator-=(int);
     Fecha &operator+=(int);
     Fecha &operator=(const Fecha &F) = default;
+    
     operator const char *() const;
 
     int dia() const noexcept { return dia_; }
