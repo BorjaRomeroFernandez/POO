@@ -4,4 +4,4 @@
 
 <h1> Object Oriented Programming - OOP </h1>
 
-<p> University practices of the "Object Oriented Programming" subject from the Universtiy of Cádiz.</p>
+<p> University practices of the "Object-Oriented Programming" subject from the Universtiy of Cádiz.</p>
