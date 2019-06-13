@@ -1,13 +1,13 @@
 #ifndef USUARIO_HPP_
 #define USUARIO_HPP_
 
-#include <map>
-#include <unordered_map>
-#include <unordered_set>
 #include "cadena.hpp"
 #include "tarjeta.hpp"
 #include "articulo.hpp"
- 
+#include <map>
+#include <unordered_map>
+#include <unordered_set>
+
 class Tarjeta;
 class Numero;
 
@@ -51,7 +51,7 @@ public:
 
     Usuario(const Cadena &i, const Cadena &n, const Cadena &a, const Cadena &d, const Clave &c);
     Usuario(const Usuario &) = delete;
-    
+
     Usuario &operator=(const Usuario &) = delete;
 
     class Id_duplicado

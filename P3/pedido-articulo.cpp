@@ -1,10 +1,10 @@
-#include <iomanip>
 #include "pedido-articulo.hpp"
- 
+#include <iomanip>
+
 std::ostream &operator<<(std::ostream &os, const LineaPedido &LP)
 {
     os << std::fixed << std::setprecision(2) << LP.precio_venta() << " €\t" << LP.cantidad();
-    
+
     return os;
 }
 
@@ -105,6 +105,6 @@ std::ostream &Pedido_Articulo::mostrarVentasArticulos(std::ostream &os)
            << i.first->titulo() << "\"\n"
            << i.second << std::endl;
     }
-    
+
     return os;
 }

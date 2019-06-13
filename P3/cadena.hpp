@@ -3,7 +3,7 @@
 
 #include <functional>
 #include <iterator>
- 
+
 class Cadena
 {
 public:

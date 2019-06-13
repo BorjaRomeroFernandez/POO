@@ -1,16 +1,16 @@
 #ifndef PEDIDO_ARTICULO_HPP_
 #define PEDIDO_ARTICULO_HPP_
 
-#include <ostream>
-#include <map>
 #include "articulo.hpp"
 #include "pedido.hpp"
- 
+#include <ostream>
+#include <map>
+
 class LineaPedido
 {
 public:
     explicit LineaPedido(double p, unsigned c = 1) : precvent_(p), cant_(c) {}
-    
+
     double precio_venta() const noexcept { return precvent_; }
     unsigned cantidad() const noexcept { return cant_; }
 

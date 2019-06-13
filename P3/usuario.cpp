@@ -1,12 +1,14 @@
-#include <cstring>
+#include "usuario.hpp"
+
 extern "C"
 {
 #include <unistd.h>
 }
+
+#include <cstring>
 #include <iomanip>
 #include <random>
-#include "usuario.hpp"
- 
+
 #define caracteres "zyxwvutsrqponmlkjihgfedcba.ZYXWVUTSRQPONMLKJIHGFEDCBA/9876543210"
 
 Clave::Clave(const char *c)
@@ -28,7 +30,7 @@ Clave::Clave(const char *c)
 
 bool Clave::verifica(const char *c) const
 {
-    if (const char *const pw = crypt(cad, clave_.c_str()))
+    if (const char *const pw = crypt(c, clave_.c_str()))
         return pw == clave_;
 
     throw Incorrecta(Razon::ERROR_CRYPT);

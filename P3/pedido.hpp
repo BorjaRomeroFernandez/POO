@@ -1,12 +1,12 @@
 #ifndef PEDIDO_HPP_
 #define PEDIDO_HPP_
 
-#include <ostream>
 #include "fecha.hpp"
 #include "tarjeta.hpp"
 #include "usuario-pedido.hpp"
 #include "pedido-articulo.hpp"
- 
+#include <ostream>
+
 class Pedido_Articulo;
 class Usuario_Pedido;
 
@@ -18,7 +18,7 @@ public:
     class Vacio
     {
     public:
-        Vacio(Usuario &U) : usuario_(&U) {};
+        Vacio(Usuario &U) : usuario_(&U){};
         Usuario &usuario() const { return *usuario_; }
 
     private:
@@ -28,7 +28,7 @@ public:
     class Impostor
     {
     public:
-        Impostor(Usuario &U) : usuario_(&U) {};
+        Impostor(Usuario &U) : usuario_(&U){};
         Usuario &usuario() const { return *usuario_; }
 
     private:
@@ -38,7 +38,7 @@ public:
     class SinStock
     {
     public:
-        SinStock(Articulo *A) : articulo_(A) {};
+        SinStock(Articulo *A) : articulo_(A){};
         Articulo &articulo() const { return *articulo_; }
 
     private:
