@@ -1,49 +1,43 @@
-#include <cstdio>
-#include <cstring>
-#include <iostream>
 #include "cadena.hpp"
+#include <cstring>
+#include <stdexcept>
 
 Cadena::Cadena(unsigned tamano, char caracter) : s_(new char[tamano + 1]),
                                                  tam_(tamano)
 {
-    for (unsigned i = 0; i < tamano; ++i)
-        this->s_[i] = caracter;
+    std::memset(s_, caracter, tam_);
 
-    this->s_[tamano] = '\0';
+    s_[tam_] = '\0';
 }
 
 Cadena::Cadena(const Cadena &C) : s_(new char[C.tam_ + 1]),
-                                  tam_(C.length())
+                                  tam_(C.tam_)
 {
-    strcpy(this->s_, C.s_);
+    strcpy(s_, C.s_);
 }
 
-Cadena::Cadena(const char *cadena) : s_(new char[strlen(cadena) + 1]),
-                                     tam_(strlen(cadena))
+Cadena::Cadena(const char *cadena) : s_(new char[std::strlen(cadena) + 1]),
+                                     tam_(std::strlen(cadena))
 {
-    strcpy(this->s_, cadena);
-
-    this->s_[this->tam_] = '\0';
+    std::strcpy(s_, cadena);
 }
 
 Cadena::Cadena(Cadena &&C) : s_(C.s_), tam_(C.tam_)
 {
-    C.s_ = nullptr;
     C.tam_ = 0;
+    C.s_ = nullptr;
 }
 
 Cadena &Cadena::operator=(const Cadena &C) noexcept
 {
-    if (this->length() == C.length())
+    if (this != &C)
     {
-        strcpy(this->s_, C.s_);
-    }
-    else
-    {
-        delete[] this->s_;
-        this->tam_ = C.length();
-        this->s_ = new char[this->tam_ + 1];
-        strcpy(this->s_, C.s_);
+        delete[] s_;
+
+        tam_ = C.tam_;
+        s_ = new char[tam_ + 1];
+
+        std::strcpy(s_, C.s_);
     }
 
     return *this;
@@ -51,63 +45,45 @@ Cadena &Cadena::operator=(const Cadena &C) noexcept
 
 Cadena &Cadena::operator=(const char *cadena) noexcept
 {
-    if (this->tam_ == strlen(cadena))
-    {
-        strcpy(this->s_, cadena);
-    }
-    else
-    {
-        delete[] this->s_;
-        this->tam_ = strlen(cadena);
-        this->s_ = new char[this->tam_ + 1];
-        strcpy(this->s_, cadena);
-    }
+    delete[] s_;
 
-    this->s_[this->tam_] = '\0';
+    tam_ = std::strlen(cadena);
+
+    s_ = new char[tam_ + 1];
+    std::strcpy(s_, cadena);
 
     return *this;
 }
 
 Cadena &Cadena::operator=(Cadena &&C) noexcept
 {
+    if (this != &C)
+    {
+        delete[] s_;
 
-    s_ = C.s_;
-    tam_ = C.tam_;
+        tam_ = C.tam_;
+        s_ = C.s_;
 
-    C.s_ = nullptr;
-    C.tam_ = 0;
+        C.s_ = nullptr;
+        C.tam_ = 0;
+    }
 
     return *this;
 }
 
 Cadena &Cadena::operator+=(const Cadena &C) noexcept
 {
-    char *aux = new char[this->tam_];
-    unsigned i = 0;
+    Cadena t = *this;
+    tam_ = t.tam_ + C.tam_;
 
-    while (i < this->tam_)
-    {
-        aux[i] = this->s_[i];
-        ++i;
-    }
+    delete[] s_;
 
-    strcat(aux, C.s_);
+    s_ = new char[tam_ + 1];
 
-    delete[] this->s_;
-    this->tam_ += C.length();
-    this->s_ = new char[this->length() + 1];
-    strcpy(this->s_, aux);
-
-    delete[] aux;
+    std::strcpy(s_, t.s_);
+    std::strcat(s_, C.s_);
 
     return *this;
-}
-
-Cadena Cadena::operator+(const Cadena &C) const noexcept
-{
-    Cadena t = *this;
-
-    return t += C;
 }
 
 char &Cadena::operator[](int n) noexcept
@@ -115,55 +91,53 @@ char &Cadena::operator[](int n) noexcept
     return this->s_[n];
 }
 
-const char &Cadena::operator[](int n) const noexcept
+char Cadena::operator[](int n) const noexcept
 {
     return this->s_[n];
 }
 
-const char *Cadena::c_str() const
+const char *Cadena::c_str() const noexcept
 {
-    return this->s_;
+    return s_;
 }
 
 char &Cadena::at(unsigned n)
 {
-    if (n < 0 || n > this->tam_ - 1)
-        throw std::out_of_range("El índice es inválido");
-    else
-        return this->s_[n];
+    if (n >= tam_)
+        throw std::out_of_range("Fuera de rango");
+
+    return s_[n];
 }
 
 char Cadena::at(unsigned n) const
 {
-    if (n < 0 || n >= this->tam_)
-        throw std::out_of_range("El índice es inválido");
+    if (n >= tam_)
+        throw std::out_of_range("Fuera de rango");
 
-    return this->s_[n];
+    return s_[n];
 }
 
 Cadena Cadena::substr(unsigned indice, unsigned tamano) const
 {
-    if (indice > this->tam_ - 1 || (indice + tamano) > this->tam_ - 1 || tamano > this->tam_ - 1)
-        throw std::out_of_range("El índice es invá lido");
+    if (indice >= tam_ || indice + tamano > tam_ || indice + tamano < indice)
+        throw std::out_of_range("Error de rango");
 
-    char *aux = new char[tamano];
+    Cadena x(tamano);
 
-    unsigned i = 0;
+    std::strncpy(x.s_, s_ + indice, tamano);
+    x.s_[tamano] = '\0';
 
-    while (i < tamano)
-    {
-        aux[i] = this->s_[indice + i];
-
-        ++i;
-    }
-
-    return Cadena(aux);
+    return x;
 }
 
 Cadena::~Cadena()
 {
-    this->tam_ = 0;
-    delete[] this->s_;
+    delete[] s_;
+}
+
+Cadena operator+(const Cadena &C1, const Cadena &C2)
+{
+    return Cadena(C1) += C2;
 }
 
 bool operator==(const Cadena &C1, const Cadena &C2) noexcept
@@ -206,27 +180,28 @@ std::ostream &operator<<(std::ostream &os, const Cadena &C)
 std::istream &operator>>(std::istream &is, Cadena &C)
 {
 
-    size_t i = 0;
-    char *s = new char[32];
-    char a;
+    char *cadena = new char[33];
+    int i = 0;
+    char aux;
 
-    while (isspace(is.get()) != 0 && i < 32)
+    while (isspace(is.get()) && is.good())
     {
-        i++;
     }
 
     is.unget();
-    i = 0;
 
-    while (!isspace(is.peek()) && i < 32 && is.good())
+    while (i < 32 && !isspace(is.peek()) && is.good() && is.peek() != '\n' && is.peek() != '\0')
     {
-        a = is.get();
-        s[i++] = a;
+        aux = is.get();
+
+        if (is.good())
+            cadena[i++] = aux;
     }
 
-    s[i] = '\0';
-    C = Cadena(s);
-    delete[] s;
+    cadena[i] = '\0';
+    C = cadena;
+
+    delete[] cadena;
 
     return is;
 }

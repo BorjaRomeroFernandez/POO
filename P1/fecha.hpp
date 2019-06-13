@@ -17,8 +17,9 @@ public:
   Fecha operator++(int);
   Fecha &operator--();
   Fecha operator--(int);
-  Fecha &operator+(int) const;
-  Fecha &operator-(int) const;
+  Fecha operator+(int) const;
+  Fecha operator-(int) const;
+
   Fecha &operator-=(int);
   Fecha &operator+=(int);
   Fecha &operator=(const Fecha &F) = default;
@@ -46,8 +47,8 @@ private:
 
 bool operator==(const Fecha &F1, const Fecha &F2) noexcept;
 bool operator!=(const Fecha &F1, const Fecha &F2) noexcept;
-bool operator>(const Fecha &F1, const Fecha &F2) noexcept;
 bool operator<(const Fecha &F1, const Fecha &F2) noexcept;
+bool operator>(const Fecha &F1, const Fecha &F2) noexcept;
 bool operator>=(const Fecha &F1, const Fecha &F2) noexcept;
 bool operator<=(const Fecha &F1, const Fecha &F2) noexcept;
 

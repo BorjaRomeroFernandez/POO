@@ -2,7 +2,7 @@
 #define CADENA_HPP_
 
 #include <functional>
-#include <iterator>
+#include <iostream>
 
 class Cadena
 {
@@ -16,11 +16,11 @@ public:
   Cadena &operator=(const char *cadena) noexcept;
   Cadena &operator=(Cadena &&C) noexcept;
   Cadena &operator+=(const Cadena &C) noexcept;
-  Cadena operator+(const Cadena &C) const noexcept;
-  char &operator[](int n) noexcept;
-  const char &operator[](int n) const noexcept;
 
-  const char *c_str() const;
+  char &operator[](int n) noexcept;
+  char operator[](int n) const noexcept;
+
+  const char *c_str() const noexcept;
   char &at(unsigned n);
   char at(unsigned n) const;
   Cadena substr(unsigned indice, unsigned tamano) const;
@@ -52,6 +52,8 @@ private:
   char *s_;
   unsigned tam_;
 };
+
+Cadena operator+(const Cadena &C1, const Cadena &C2);
 
 bool operator==(const Cadena &C1, const Cadena &C2) noexcept;
 bool operator!=(const Cadena &C1, const Cadena &C2) noexcept;
